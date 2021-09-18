@@ -10,7 +10,7 @@ public:
 		this->isWork = true;
 	}
 	virtual void ventilate() {
-		std::cout << "block is ventilated";
+		std::cout << "block is ventilated\n";
 	}
 };
 

@@ -16,19 +16,22 @@ public:
         this->sensor.setTemperature(tmp);
     }
     virtual void ventilate() override{
-        if (sensor.compare(myRoom.getTemperature()) == 0) {
-            std::cout << "not changed";
+        bool isOpen= false;
+        while (sensor.compare(myRoom.getTemperature()) != 0) {
+            isOpen= true;
+            if (sensor.compare(myRoom.getTemperature()) == 1) {
+                compressor.pressure();
+                decreseTmpOfRoom();
+                std::cout << "cold\n";
+            }
+            if (sensor.compare(myRoom.getTemperature()) == -1) {
+                compressor.pressure();
+                increseTmpOfRoom();
+                std::cout << "warm\n";
+            }
         }
-        if (sensor.compare(myRoom.getTemperature()) == 1) {
-            compressor.pressure();
-            decreseTmpOfRoom();
-        std::cout << "cold";
-        }
-        if (sensor.compare(myRoom.getTemperature()) == -1) {
-            compressor.pressure();
-            increseTmpOfRoom();
-        std::cout << "warm";
-        }
+            if(!isOpen)std::cout << "not changed\n";
+            std::cout << "stoped\n";
     }
     void increseTmpOfRoom(){
         unsigned int tmp = this->myRoom.getTemperature();
